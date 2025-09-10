@@ -1,16 +1,25 @@
+using System.IO;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private NavMeshAgent agent;
+    public NavMeshPath path;
+
+    public Spawner spawner;
     void Start()
     {
-        
+        agent = GetComponent<NavMeshAgent>();
+        bool pathset = agent.SetPath(path);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (agent.remainingDistance < 0.5 && path != null)
+        {
+            agent.SetPath(spawner.EndPoint(path));
+
+        }
     }
 }
